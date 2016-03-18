@@ -1,4 +1,4 @@
-FROM jboss/keycloak:1.7.0.Final
+FROM jboss/keycloak:1.9.1.Final
 MAINTAINER dirk.franssen@gmail.com
 
 ARG KEYCLOAK_ADMIN_USER=admin
@@ -10,4 +10,6 @@ RUN /opt/jboss/keycloak/bin/add-user.sh -u ${KEYCLOAK_ADMIN_USER} -p ${KEYCLOAK_
 
 ADD ${KEYCLOAK_IMPORT_REALM} /opt/jboss/keycloak/
 
-CMD ["sh", "-c", "/opt/jboss/keycloak/bin/standalone.sh -b 0.0.0.0 -Dkeycloak.import=/opt/jboss/keycloak/${KEYCLOAK_IMPORT_REALM}"]
+ENTRYPOINT [ "/opt/jboss/docker-entrypoint.sh" ]
+
+CMD ["-b", "0.0.0.0", "-Dkeycloak.import=/opt/jboss/keycloak/${KEYCLOAK_IMPORT_REALM}"]
